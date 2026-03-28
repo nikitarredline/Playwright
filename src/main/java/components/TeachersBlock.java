@@ -24,14 +24,18 @@ public class TeachersBlock extends AbsCommon {
 
         BoundingBox box = root.locator(".swiper-wrapper").boundingBox();
 
-        page.mouse().move(box.x + box.width - 20, box.y + box.height / 2);
-        page.mouse().down();
-        page.mouse().move(box.x + 50, box.y + box.height / 2, new Mouse.MoveOptions().setSteps(25));
-        page.mouse().up();
+        getPage().mouse().move(box.x + box.width - 20, box.y + box.height / 2);
+        getPage().mouse().down();
+        getPage().mouse().move(box.x + 50, box.y + box.height / 2, new Mouse.MoveOptions().setSteps(25));
+        getPage().mouse().up();
     }
 
     public String getActiveTeacherName() {
         return activeSlide().locator("p").first().innerText();
+    }
+
+    public String getNextTeacherName() {
+        return root.locator(".swiper-slide-next p").first().innerText();
     }
 
     public void clickActiveTeacher() {

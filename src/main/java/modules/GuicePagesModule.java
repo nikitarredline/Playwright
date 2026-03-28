@@ -7,10 +7,11 @@ import com.microsoft.playwright.Page;
 import components.TeacherPopup;
 import components.TeachersBlock;
 import pages.ClickhousePage;
+import pages.CoursesPage;
 
 public class GuicePagesModule extends AbstractModule {
 
-    private Page page;
+    private final Page page;
 
     public GuicePagesModule(Page page) {
         this.page = page;
@@ -18,7 +19,13 @@ public class GuicePagesModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public ClickhousePage clickhousePage(Page page, TeachersBlock teachersBlock, TeacherPopup teacherPopup) {
+    public ClickhousePage provideClickhousePage(TeachersBlock teachersBlock, TeacherPopup teacherPopup) {
         return new ClickhousePage(page, teachersBlock, teacherPopup);
+    }
+
+    @Provides
+    @Singleton
+    public CoursesPage provideCoursesPage() {
+        return new CoursesPage(page);
     }
 }

@@ -6,14 +6,14 @@ import com.microsoft.playwright.Page;
 
 public class GuiceModule extends AbstractModule {
 
-    private Page page;
+    private final Page page;
 
     public GuiceModule(Page page) {
         this.page = page;
     }
 
     @Provides
-    public Page getPage() {
+    public Page providePage() {
         return page;
     }
 }

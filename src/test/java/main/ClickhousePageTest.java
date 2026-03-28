@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import pages.ClickhousePage;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 @ExtendWith(PlaywrightUiExtension.class)
 public class ClickhousePageTest {
 
@@ -21,18 +18,18 @@ public class ClickhousePageTest {
     private ClickhousePage clickhousePage;
 
     @Test
-    public void teachersBlockAreVisible() {
+    public void clickhouseTeachersTest() {
         clickhousePage.open();
         String before = clickhousePage.teachersBlock().getActiveTeacherName();
         clickhousePage.teachersBlock().drag();
         String after = clickhousePage.teachersBlock().getActiveTeacherName();
+        String next = clickhousePage.teachersBlock().getNextTeacherName();
         Assertions.assertNotEquals(before, after);
         clickhousePage.teachersBlock().clickActiveTeacher();
-        clickhousePage.teacherPopup().teacherNameIsVisible(after);
-        clickhousePage.teacherPopup().clickNext();
-        assertTrue(clickhousePage.headlessCheck("Андрей Поляков"));
-//        assertFalse(clickhousePage.headlessCheck(after));
-//        clickhousePage.teacherPopup().clickPrev();
-//        assertTrue(clickhousePage.headlessCheck(after));
+        clickhousePage.teacherPopup().shouldHaveTeacherName(after);
+        clickhousePage.teacherPopup().clickNextAndWait();
+        clickhousePage.teacherPopup().shouldHaveTeacherName(next);
+        clickhousePage.teacherPopup().clickPrevAndWait();
+        clickhousePage.teacherPopup().shouldHaveTeacherName(after);
     }
 }

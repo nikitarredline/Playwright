@@ -1,7 +1,6 @@
 package pages;
 
 import annotations.Path;
-import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.AriaRole;
 import commons.AbsCommon;
@@ -20,12 +19,12 @@ public abstract class AbsBasePage extends AbsCommon {
     }
 
     public void open() {
-        page.navigate(System.getProperty("base.url") + getPath());
+        getPage().navigate(System.getProperty("base.url") + getPath());
     }
 
     public boolean headlessCheck(String title) {
         assertThat(
-                page.getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(title))
+                getPage().getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(title))
         ).isVisible();
         return true;
     }

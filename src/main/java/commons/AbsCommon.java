@@ -5,10 +5,17 @@ import com.microsoft.playwright.Page;
 
 public abstract class AbsCommon {
 
-    protected Page page;
+    private final Page page;
 
-    public AbsCommon(Page page) {
+    protected AbsCommon(Page page) {
+        if (page == null) {
+            throw new IllegalArgumentException("Page must not be null");
+        }
         this.page = page;
+    }
+
+    protected Page getPage() {
+        return page;
     }
 
     protected void scrollToCenter(Locator locator) {
