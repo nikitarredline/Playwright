@@ -61,4 +61,17 @@ public class CoursesFilters extends AbsCommon {
         page.mouse().move(targetX, targetY, new Mouse.MoveOptions().setSteps(20));
         page.mouse().up();
     }
+
+    public void toggleCheckbox(String checkboxText) {
+        // Находим label по тексту и получаем связанный input
+        String xpath = String.format("//input[@type='checkbox']/following::label[text()='%s']", checkboxText);
+        Locator checkboxLabel = page.locator(xpath);
+
+        // Клик по label — это безопасно и переключает checkbox
+        checkboxLabel.click();
+    }
+
+    public void clickClearFiltersButton() {
+        clickButton("Очистить фильтры");
+    }
 }

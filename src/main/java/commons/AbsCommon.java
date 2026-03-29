@@ -2,6 +2,7 @@ package commons;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import org.w3c.dom.Text;
 
 public abstract class AbsCommon {
 
@@ -33,5 +34,11 @@ public abstract class AbsCommon {
     protected void type(Locator locator, String text) {
         scrollToCenter(locator);
         locator.fill(text);
+    }
+
+    public void clickButton(String buttonText) {
+        Locator locator = page.locator(String.format("button:has-text('%s')", buttonText));
+        scrollToCenter(locator);
+        locator.click();
     }
 }
