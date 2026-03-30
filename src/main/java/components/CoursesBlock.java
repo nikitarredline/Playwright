@@ -13,27 +13,20 @@ import java.util.stream.Collectors;
 
 public class CoursesBlock extends AbsCommon {
 
-    private final Locator root;
+    private final Locator catalogue;
     private final Locator durationElements;
 
     public CoursesBlock(Page page) {
         super(page);
-
-        // root каталога
-        this.root = page.locator("section:has(h1:has-text('Каталог'))");
-
-        // все элементы с длительностью
-        this.durationElements = root.locator("a").locator("div:has-text('месяц')");
+        this.catalogue = page.locator("section:has(h1:has-text('Каталог'))");
+        this.durationElements = this.catalogue.locator("a").locator("div:has-text('месяц')");
     }
 
-    /**
-     * Ждём, пока ВСЕ курсы будут соответствовать диапазону
-     */
     public void waitUntilDurationsInRange(int min, int max) {
-        root.waitFor(); // ждём появление каталога
-        ElementHandle rootHandle = root.elementHandle();
+        catalogue.waitFor();
+        ElementHandle rootHandle = catalogue.elementHandle();
 
-        getPage().waitForFunction(
+        page().waitForFunction(
                 "([root, min, max]) => {" +
                         "const els = root.querySelectorAll('a div');" +
                         "if (els.length === 0) return false;" +
@@ -51,11 +44,8 @@ public class CoursesBlock extends AbsCommon {
         );
     }
 
-    /**
-     * Получаем все длительности курсов
-     */
     public List<Integer> getAllCourseDurations() {
-        durationElements.first().waitFor(); // ждём появления
+        durationElements.first().waitFor();
 
         Pattern pattern = Pattern.compile("(\\d+)\\s*месяц");
 
@@ -69,9 +59,6 @@ public class CoursesBlock extends AbsCommon {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Проверяем диапазон (assert)
-     */
     public void checkDurationsInRange(int min, int max) {
         List<Integer> durations = getAllCourseDurations();
 
@@ -87,16 +74,14 @@ public class CoursesBlock extends AbsCommon {
     }
 
     public List<String> getCourseTitles() {
-        return root.locator("a[href^='/lessons/'] h6 div")
+        return catalogue.locator("a[href^='/lessons/'] h6 div")
                 .allTextContents();
     }
 
     public void waitUntilCoursesUpdated(List<String> oldTitles) {
-        // Локатор всех названий курсов
-        Locator courseTitlesLocator = root.locator("a[href^='/lessons/'] h6 div");
+        Locator courseTitlesLocator = catalogue.locator("a[href^='/lessons/'] h6 div");
 
-        // Ждём, пока хотя бы одно название изменится
-        getPage().waitForCondition(() -> {
+        page().waitForCondition(() -> {
             List<String> currentTitles = courseTitlesLocator.allTextContents();
             return !currentTitles.equals(oldTitles);
         });

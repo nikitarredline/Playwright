@@ -1,7 +1,6 @@
 package main;
 
 import com.google.inject.Inject;
-import com.microsoft.playwright.Page;
 import extensions.PlaywrightUiExtension;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,9 +9,6 @@ import pages.ClickhousePage;
 
 @ExtendWith(PlaywrightUiExtension.class)
 public class ClickhousePageTest {
-
-    @Inject
-    private Page page;
 
     @Inject
     private ClickhousePage clickhousePage;

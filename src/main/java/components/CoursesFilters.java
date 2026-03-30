@@ -33,11 +33,9 @@ public class CoursesFilters extends AbsCommon {
         int min = 0;
         int max = 15;
 
-        // Находим нужный ползунок
         Locator slider = page.locator("div[role=slider]").nth(isMinSlider ? 0 : 1);
         scrollToCenter(slider);
 
-        // Полоска (track) — родитель slider
         Locator track = slider.locator("..");
 
         BoundingBox sliderBox = slider.boundingBox();
@@ -47,15 +45,12 @@ public class CoursesFilters extends AbsCommon {
             throw new RuntimeException("Не удалось получить размеры slider или track");
         }
 
-        // Начальная позиция — центр ползунка
         double startX = sliderBox.x + sliderBox.width / 2;
         double startY = sliderBox.y + sliderBox.height / 2;
 
-        // Конечная позиция — нужное значение месяцев
         double targetX = trackBox.x + (months - min) / (double)(max - min) * trackBox.width;
         double targetY = startY;
 
-        // Drag & Drop
         page.mouse().move(startX, startY);
         page.mouse().down();
         page.mouse().move(targetX, targetY, new Mouse.MoveOptions().setSteps(20));
@@ -63,11 +58,9 @@ public class CoursesFilters extends AbsCommon {
     }
 
     public void toggleCheckbox(String checkboxText) {
-        // Находим label по тексту и получаем связанный input
         String xpath = String.format("//input[@type='checkbox']/following::label[text()='%s']", checkboxText);
         Locator checkboxLabel = page.locator(xpath);
 
-        // Клик по label — это безопасно и переключает checkbox
         checkboxLabel.click();
     }
 

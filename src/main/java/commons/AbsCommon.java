@@ -2,7 +2,6 @@ package commons;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
-import org.w3c.dom.Text;
 
 public abstract class AbsCommon {
 
@@ -15,7 +14,7 @@ public abstract class AbsCommon {
         this.page = page;
     }
 
-    protected Page getPage() {
+    protected Page page() {
         return page;
     }
 

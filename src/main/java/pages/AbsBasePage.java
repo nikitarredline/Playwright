@@ -19,13 +19,17 @@ public abstract class AbsBasePage extends AbsCommon {
     }
 
     public void open() {
-        getPage().navigate(System.getProperty("base.url") + getPath());
+        page().navigate(System.getProperty("base.url") + getPath());
     }
 
     public boolean headlessCheck(String title) {
         assertThat(
-                getPage().getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(title))
+                page().getByRole(AriaRole.HEADING, new Page.GetByRoleOptions().setName(title))
         ).isVisible();
         return true;
+    }
+
+    public void checkTextVisible(String text) {
+        assertThat(page().getByText(text)).isVisible();
     }
 }

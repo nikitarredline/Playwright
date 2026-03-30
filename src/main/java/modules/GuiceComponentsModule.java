@@ -4,10 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.microsoft.playwright.Page;
-import components.CoursesBlock;
-import components.CoursesFilters;
-import components.TeacherPopup;
-import components.TeachersBlock;
+import components.*;
 
 public class GuiceComponentsModule extends AbstractModule {
 
@@ -39,5 +36,11 @@ public class GuiceComponentsModule extends AbstractModule {
     @Singleton
     public CoursesBlock provideCoursesBlock() {
         return new CoursesBlock(page);
+    }
+
+    @Provides
+    @Singleton
+    public Packages providePackages() {
+        return new Packages(page);
     }
 }

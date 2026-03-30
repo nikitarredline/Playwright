@@ -8,26 +8,26 @@ import commons.AbsCommon;
 
 public class TeachersBlock extends AbsCommon {
 
-    private final Locator root;
+    private final Locator teachersBlock;
 
     public TeachersBlock(Page page) {
         super(page);
-        this.root = page.locator("section:has(h2:has-text('Преподаватели'))");
+        this.teachersBlock = page.locator("section:has(h2:has-text('Преподаватели'))");
     }
 
     public Locator activeSlide() {
-        return root.locator(".swiper-slide-active");
+        return teachersBlock.locator(".swiper-slide-active");
     }
 
     public void drag() {
-        scrollToCenter(root);
+        scrollToCenter(teachersBlock);
 
-        BoundingBox box = root.locator(".swiper-wrapper").boundingBox();
+        BoundingBox box = teachersBlock.locator(".swiper-wrapper").boundingBox();
 
-        getPage().mouse().move(box.x + box.width - 20, box.y + box.height / 2);
-        getPage().mouse().down();
-        getPage().mouse().move(box.x + 50, box.y + box.height / 2, new Mouse.MoveOptions().setSteps(25));
-        getPage().mouse().up();
+        page().mouse().move(box.x + box.width - 20, box.y + box.height / 2);
+        page().mouse().down();
+        page().mouse().move(box.x + 50, box.y + box.height / 2, new Mouse.MoveOptions().setSteps(25));
+        page().mouse().up();
     }
 
     public String getActiveTeacherName() {
@@ -35,11 +35,11 @@ public class TeachersBlock extends AbsCommon {
     }
 
     public String getNextTeacherName() {
-        return root.locator(".swiper-slide-next p").first().innerText();
+        return teachersBlock.locator(".swiper-slide-next p").first().innerText();
     }
 
     public void clickActiveTeacher() {
-        Locator active = root.locator(".swiper-slide.swiper-slide-active");
+        Locator active = teachersBlock.locator(".swiper-slide.swiper-slide-active");
         scrollToCenter(active);
         active.click();
     }

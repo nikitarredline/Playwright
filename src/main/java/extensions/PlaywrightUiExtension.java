@@ -31,14 +31,13 @@ public class PlaywrightUiExtension implements BeforeAllCallback, BeforeEachCallb
         browserContext = browser.newContext();
         page = browserContext.newPage();
 
-//        // Включаем трассировку для каждого теста
-//        browserContext.tracing().start(new Tracing.StartOptions()
-//                .setScreenshots(true)
-//                .setSnapshots(true)
-//                .setSources(true)
-//        );
+        // Включаем трассировку для каждого теста
+        browserContext.tracing().start(new Tracing.StartOptions()
+                .setScreenshots(true)
+                .setSnapshots(true)
+                .setSources(true)
+        );
 
-        // Инъекция Guice
         Guice.createInjector(
                 new GuiceModule(page),
                 new GuicePagesModule(page),
@@ -49,13 +48,12 @@ public class PlaywrightUiExtension implements BeforeAllCallback, BeforeEachCallb
     @Override
     public void afterEach(ExtensionContext context) {
         try {
-//            if (browserContext != null && page != null) {
-//                // Сохраняем trace в корень проекта с именем теста
-//                String tracePath = "trace-" + context.getDisplayName().replace(" ", "_") + ".zip";
-//                browserContext.tracing().stop(new Tracing.StopOptions()
-//                        .setPath(Paths.get(tracePath))
-//                );
-//            }
+            if (browserContext != null && page != null) {
+                String tracePath = "trace-" + context.getDisplayName().replace(" ", "_") + ".zip";
+                browserContext.tracing().stop(new Tracing.StopOptions()
+                        .setPath(Paths.get(tracePath))
+                );
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -70,8 +68,7 @@ public class PlaywrightUiExtension implements BeforeAllCallback, BeforeEachCallb
         if (playwright != null) playwright.close();
     }
 
-    // Доступ к page только для тестов
-    public Page getPage() {
+    public Page page() {
         return page;
     }
 }

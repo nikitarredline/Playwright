@@ -4,10 +4,11 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.microsoft.playwright.Page;
-import components.TeacherPopup;
-import components.TeachersBlock;
+import components.*;
 import pages.ClickhousePage;
 import pages.CoursesPage;
+import pages.LoginRegisterPage;
+import pages.SubscriptionPage;
 
 public class GuicePagesModule extends AbstractModule {
 
@@ -25,7 +26,19 @@ public class GuicePagesModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public CoursesPage provideCoursesPage() {
-        return new CoursesPage(page);
+    public CoursesPage provideCoursesPage(CoursesFilters filters, CoursesBlock block) {
+        return new CoursesPage(page, filters, block);
+    }
+
+    @Provides
+    @Singleton
+    public SubscriptionPage provideSubscriptionPage(Packages packages) {
+        return new SubscriptionPage(page, packages);
+    }
+
+    @Provides
+    @Singleton
+    public LoginRegisterPage loginRegisterPage() {
+        return new LoginRegisterPage(page);
     }
 }
